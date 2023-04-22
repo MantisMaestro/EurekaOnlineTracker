@@ -9,6 +9,9 @@ from flask_cors import CORS
 from threading import Lock, Thread
 
 
+app = Flask(__name__)
+
+
 class EurekaOnlineTracker:
     def __init__(self):
         self.online_players = {}
@@ -67,7 +70,6 @@ def main():
     handler_thread = Thread(target=run_handler)
     handler_thread.start()
     
-    app = Flask(__name__)
     CORS(app)
 
     app.add_url_rule('/online_players', 'get_online_players', tracker.get_online_players)
