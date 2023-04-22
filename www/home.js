@@ -21,7 +21,7 @@ function RetrieveOnlinePlayers()
 
             let players = jsonData["players"]
             for (let i = 0; i < players.length; i++) {
-                let rowElement = buildOnlineTableRow(players[0]["name"])
+                let rowElement = buildOnlineTableRow(players[i]["name"])
                 tableBody.insertAdjacentHTML('beforeend', rowElement)
             }
         })
