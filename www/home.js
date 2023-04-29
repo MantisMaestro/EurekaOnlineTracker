@@ -1,7 +1,8 @@
 const button = document.getElementById("refreshButton")
 
 button.addEventListener("click", (event) => {
-    RetrieveOnlinePlayers();
+    RetrieveOnlinePlayers()
+    GetPlaytimeLeaders()
 });
 
 window.onload = (event) => {
@@ -51,8 +52,11 @@ function secondsToTimeString(seconds) {
     const minutes = Math.floor(remainingSeconds / 60);
     if(hours === 0)
     {
+        if(minutes === 1) return `${minutes} Minute`;
         return `${minutes} Minutes`;
     }
+
+    if(hours === 1) return `${hours} Hour ${minutes} Minutes`;
     return `${hours} Hours ${minutes} Minutes`;
 }
 
