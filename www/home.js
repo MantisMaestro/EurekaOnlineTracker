@@ -10,14 +10,12 @@ window.onload = (event) => {
     GetPlaytimeLeaders()
 }
 
-function RetrieveOnlinePlayers()
-{
-    let response = fetch('https://eureka.agamemnon.dev/api/online_players')
+function RetrieveOnlinePlayers() {
+    let response = fetch('http://127.0.0.1:5000/online_players') // fetch('https://eureka.agamemnon.dev/api/online_players')
         .then(response => response.json())
         .then(jsonData => {
             const rows = document.querySelectorAll("#playerOnlineTable > tbody > tr")
             rows.forEach(element => element.remove())
-
             const tableBody = document.querySelector("#playerOnlineTable > tbody")
 
             let players = jsonData["players"]
@@ -28,20 +26,20 @@ function RetrieveOnlinePlayers()
         })
 }
 
-function GetPlaytimeLeaders()
-{
-    let response = fetch('https://eureka.agamemnon.dev/api/top_players/5')
+function GetPlaytimeLeaders() {
+    let response = fetch('http://127.0.0.1:5000/top_players/5') // fetch('https://eureka.agamemnon.dev/api/top_players/5')
         .then(response => response.json())
         .then(jsonData => {
             const rows = document.querySelectorAll("#playerTimeLeaderBoard > tbody > tr")
             rows.forEach(element => element.remove())
-            
             const tableBody = document.querySelector("#playerTimeLeaderBoard > tbody")
-            
-            jsonData.forEach(element => {
-                
-                let rowElement = buildPlaytimeTableRow(element[0], secondsToTimeString(element[1]))
-                tableBody.insertAdjacentHTML('beforeend', rowElement)
+
+            let players = jsonData["players"]
+            players.forEach(element => {
+                if (element["name"] != "Anonymous Player") {
+                    let rowElement = buildPlaytimeTableRow(element["name"], secondsToTimeString(element["time_online_seconds"]))
+                    tableBody.insertAdjacentHTML('beforeend', rowElement)
+                }
             })
         })
 }
@@ -50,18 +48,16 @@ function secondsToTimeString(seconds) {
     const hours = Math.floor(seconds / 3600);
     const remainingSeconds = seconds % 3600;
     const minutes = Math.floor(remainingSeconds / 60);
-    if(hours === 0)
-    {
-        if(minutes === 1) return `${minutes} Minute`;
+    if (hours === 0) {
+        if (minutes === 1) return `${minutes} Minute`;
         return `${minutes} Minutes`;
     }
 
-    if(hours === 1) return `${hours} Hour ${minutes} Minutes`;
+    if (hours === 1) return `${hours} Hour ${minutes} Minutes`;
     return `${hours} Hours ${minutes} Minutes`;
 }
 
-function buildOnlineTableRow(playerName)
-{
+function buildOnlineTableRow(playerName) {
     return `
     <tr>
         <th>${playerName}</th>
@@ -72,8 +68,7 @@ function buildOnlineTableRow(playerName)
     `
 }
 
-function buildPlaytimeTableRow(playerName, playtime)
-{
+function buildPlaytimeTableRow(playerName, playtime) {
     return `
     <tr>
         <th>${playerName}</th>

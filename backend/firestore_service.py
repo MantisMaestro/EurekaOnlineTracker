@@ -32,18 +32,22 @@ class FirestoreService:
                 self.db.collection('players').document(player['uid']).set(new_player)
             else:
                 self.db.collection('players').document(player['uid']).update(
-                    {'time_online_seconds': firestore.Increment(60)}
+                    {'time_online_seconds': firestore.Increment(60),
+                     'last_online': datetime.datetime.now()}
                 )
                 
     def get_player_ledger(self):
         docs = self.db.collection('players').stream()
-        data = {}
+        data = []
         for doc in docs:
-            data[doc.id] = doc.to_dict()
+            data.append(doc.to_dict())
+        ledger = {"players": data}
+        return ledger
         
     def get_online_players(self):
         docs = self.db.collection('online_now').stream()
-        data = {}
+        data = []
         for doc in docs:
-            data[doc.id] = doc.to_dict()
-        return data
+            data.append(doc.to_dict())
+        online = {"players": data}
+        return online

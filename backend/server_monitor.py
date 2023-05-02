@@ -1,6 +1,7 @@
 import asyncio
 import datetime
 import logging
+import traceback
 
 import firestore_service
 from mcstatus import JavaServer
@@ -15,24 +16,31 @@ fh.setFormatter(formatter)
 logger.addHandler(fh)
 
 
+async def server_monitor(server):
+    online_players = {}
+    response = server.status()
+    if response.players.sample is not None:
+        logger.info("{} player(s) online".format(response.players.online))
+        online_players["timestamp"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        online_players["players"] = []
+        for player in response.players.sample:
+            online_players["players"].append({"name": player.name, "uid": player.id})
+            logger.info("Retrieved status information for {}".format(player.name))
+        save_ledger_to_firestore(online_players)
+        save_online_players_to_firestore(online_players)
+
+
 async def handler():
     try:
         server = JavaServer("158.62.203.83", 25565)
         while True:
-            online_players = {}
-            response = server.status()
-            logger.info("{} player(s) online".format(response.players.online))
-            if response.players.sample is not None:
-                online_players["timestamp"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                online_players["players"] = []
-                for player in response.players.sample:
-                    online_players["players"].append({"name": player.name, "id": player.id})
-                    logger.info("Retrieved status information for {}".format(player.name))
-                save_ledger_to_firestore(online_players)
-                save_online_players_to_firestore(online_players)
-            await asyncio.sleep(1)
+            await asyncio.gather(
+                asyncio.sleep(1),
+                server_monitor(server)
+            )
     except Exception:
         logger.critical("An error occured in the server_handler.handler()")
+        traceback.print_exc()
 
 
 def save_online_players_to_firestore(data):
