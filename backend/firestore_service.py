@@ -23,11 +23,11 @@ class FirestoreService:
         docs = self.db.collection('online_now').stream()
         for doc in docs:
             if all(player['uid'] != doc.id for player in online_players['players']):
-                self.logger(f"Player no longer online: {doc.id}")
+                self.logger.debug(f"Player no longer online: {doc.id}")
                 self.db.collection('online_now').document(doc.id).delete()
         for player in online_players['players']:
             if all(doc.id != player['uid'] for doc in docs):
-                self.logger(f"Player now online: {player['name']}")
+                self.logger.debug(f"Player now online: {player['name']}")
                 self.db.collection('online_now').document(player['uid']).set(player)
 
     def update_or_add_player_time_ledger(self, online_players):
@@ -39,10 +39,10 @@ class FirestoreService:
                     "name": player["name"],
                     "time_online_seconds": 0
                 }
-                self.logger.info(f"New player added to ledger: {player['name']}")
+                self.logger.debug(f"New player added to ledger: {player['name']}")
                 self.db.collection('players').document(player['uid']).set(new_player)
             else:
-                self.logger.info(f"Player ledger updated: {player['name']}")
+                self.logger.debug(f"Player ledger updated: {player['name']}")
                 self.db.collection('players').document(player['uid']).update(
                     {'time_online_seconds': firestore.Increment(60),
                      'last_online': datetime.datetime.now()}
