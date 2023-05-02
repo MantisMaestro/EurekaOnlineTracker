@@ -14,18 +14,13 @@ fsService = firestore_service.FirestoreService()
 @app.route('/online_players')
 def get_online_players():
     response = fsService.get_online_players()
-    json_response = jsonify(response)
-    return json_response
+    return jsonify(response)
 
 
 @app.route('/top_players/<int:x>')
 def get_top_players(x=5):
-    with lock:
-        sorted_players = sorted(playtime_ledger.items(), key=lambda item: item[1], reverse=True)
-        if x >= len(sorted_players):
-            return jsonify(sorted_players)
-        else:
-            return jsonify(sorted_players[:x])
+    response = fsService.get_player_ledger()
+    return jsonify(response)
 
 
 def setup():

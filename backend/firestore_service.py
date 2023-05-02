@@ -7,7 +7,6 @@ from firebase_admin import firestore
 
 class FirestoreService:
     def __init__(self):
-        print("HELLO WORLD")
         self.cred = credentials.Certificate('eurekaonline-bdcf2-firebase-adminsdk-sbr8z-1d1449d966.json')
         self.app = firebase_admin.initialize_app(self.cred)
         self.db = firestore.client()
@@ -37,7 +36,10 @@ class FirestoreService:
                 )
                 
     def get_player_ledger(self):
-        print("Not yet implemented")
+        docs = self.db.collection('players').stream()
+        data = {}
+        for doc in docs:
+            data[doc.id] = doc.to_dict()
         
     def get_online_players(self):
         docs = self.db.collection('online_now').stream()
@@ -45,12 +47,3 @@ class FirestoreService:
         for doc in docs:
             data[doc.id] = doc.to_dict()
         return data
-
-
-# test_data = {"timestamp": 4,
-#              "players": [{"uid": "2", "name": "poop", "online_since": 8},
-#                          {"uid": "1", "name": "test", "online_since": 7}]}
-# 
-# fsService = FirestoreService()
-# fsService.update_or_add_online_players(test_data)
-# fsService.update_or_add_player_time_ledger(test_data)
