@@ -11,7 +11,7 @@ window.onload = (event) => {
 }
 
 function RetrieveOnlinePlayers() {
-    let response = fetch('http://127.0.0.1:5000/online_players') // fetch('https://eureka.agamemnon.dev/api/online_players')
+    let response = fetch('https://eureka.agamemnon.dev/api/online_players')
         .then(response => response.json())
         .then(jsonData => {
             const rows = document.querySelectorAll("#playerOnlineTable > tbody > tr")
@@ -27,7 +27,7 @@ function RetrieveOnlinePlayers() {
 }
 
 function GetPlaytimeLeaders() {
-    let response = fetch('http://127.0.0.1:5000/top_players/5') // fetch('https://eureka.agamemnon.dev/api/top_players/5')
+    let response = fetch('https://eureka.agamemnon.dev/api/top_players/5')
         .then(response => response.json())
         .then(jsonData => {
             const rows = document.querySelectorAll("#playerTimeLeaderBoard > tbody > tr")
