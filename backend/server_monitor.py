@@ -35,7 +35,7 @@ async def handler():
         server = JavaServer("158.62.203.83", 25565)
         while True:
             await asyncio.gather(
-                asyncio.sleep(1),
+                asyncio.sleep(60),
                 server_monitor(server)
             )
     except Exception:
