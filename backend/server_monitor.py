@@ -57,11 +57,9 @@ def setup():
 
 def main():
     setup()
-    loop = asyncio.get_event_loop()
     while True:
         try:
-            asyncio.set_event_loop(loop)
-            loop.run_until_complete(handler())
+            asyncio.run(handler())
         except:
             logger.error("There was an error running the loop.")
 
