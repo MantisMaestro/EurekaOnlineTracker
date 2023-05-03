@@ -52,6 +52,7 @@ class FirestoreService:
                 self.db.collection('players').document(player['uid']).set(new_player)
 
     def get_player_ledger(self):
+        self.logger.debug(f"Getting player ledger.")
         docs = self.db.collection('players').stream()
         data = []
         for doc in docs:
@@ -60,6 +61,7 @@ class FirestoreService:
         return ledger
 
     def get_online_players(self):
+        self.logger.debug(f"Getting online players.")
         docs = self.db.collection('online_now').stream()
         data = []
         for doc in docs:
