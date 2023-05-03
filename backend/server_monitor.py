@@ -28,6 +28,8 @@ async def server_monitor(server):
             logger.info("Retrieved status information for {}".format(player.name))
         save_ledger_to_firestore(online_players)
         save_online_players_to_firestore(online_players)
+    else:
+        save_online_players_to_firestore(online_players)
 
 
 async def handler():
