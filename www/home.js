@@ -34,10 +34,16 @@ function GetPlaytimeLeaders() {
             rows.forEach(element => element.remove())
             const tableBody = document.querySelector("#playerTimeLeaderBoard > tbody")
 
-            let players = jsonData["players"]
-            players.forEach(element => {
-                if (element["name"] != "Anonymous Player") {
-                    let rowElement = buildPlaytimeTableRow(element["name"], secondsToTimeString(element["time_online_seconds"]))
+            let players = jsonData["players"], objects = [];
+            for(let i in players) {
+                objects.push(players[i].time_online_seconds)
+            }
+
+            let sortedPlayers = players.sort((a,b) => (a.time_online_seconds > b.time_online_seconds) ? -1 : ((b.time_online_seconds > a.time_online_seconds) ? 1 : 0));
+
+            sortedPlayers.forEach(element => {
+                if (element.name != "Anonymous Player") {
+                    let rowElement = buildPlaytimeTableRow(element.name, secondsToTimeString(element.time_online_seconds))
                     tableBody.insertAdjacentHTML('beforeend', rowElement)
                 }
             })
