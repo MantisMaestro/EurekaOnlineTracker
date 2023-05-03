@@ -11,7 +11,7 @@ class FirestoreService:
         self.cred = credentials.Certificate('eurekaonline-bdcf2-firebase-adminsdk-sbr8z-1d1449d966.json')
         self.app = firebase_admin.initialize_app(self.cred)
         self.db = firestore.client()
-        self.logger = logging.getLogger('log_filename')
+        self.logger = logging.getLogger(log_filename)
         self.logger.setLevel(logging.INFO)
         fh = logging.FileHandler(f'{log_filename}.log')
         fh.setLevel(logging.INFO)
@@ -23,11 +23,11 @@ class FirestoreService:
         docs = self.db.collection('online_now').stream()
         for doc in docs:
             if all(player['uid'] != doc.id for player in online_players['players']):
-                self.logger.debug(f"Player no longer online: {doc.id}")
+                self.logger.error(f"Player no longer online: {doc.id}")
                 self.db.collection('online_now').document(doc.id).delete()
         for player in online_players['players']:
             if all(doc.id != player['uid'] for doc in docs):
-                self.logger.debug(f"Player now online: {player['name']}")
+                self.logger.error(f"Player now online: {player['name']}")
                 self.db.collection('online_now').document(player['uid']).set(player)
 
     def update_or_add_player_time_ledger(self, online_players):
@@ -37,7 +37,7 @@ class FirestoreService:
             doc_ref = collection.document(player['uid'])
             doc = doc_ref.get()
             if doc.exists:
-                self.logger.debug(f"Player ledger updated: {player['name']}")
+                self.logger.error(f"Player ledger updated: {player['name']}")
                 self.db.collection('players').document(player['uid']).update(
                     {'time_online_seconds': firestore.Increment(60),
                      'last_online': datetime.datetime.now()}
@@ -48,11 +48,11 @@ class FirestoreService:
                     "name": player["name"],
                     "time_online_seconds": 0
                 }
-                self.logger.debug(f"New player added to ledger: {player['name']}")
+                self.logger.error(f"New player added to ledger: {player['name']}")
                 self.db.collection('players').document(player['uid']).set(new_player)
 
     def get_player_ledger(self):
-        self.logger.debug(f"Getting player ledger.")
+        self.logger.error(f"Getting player ledger.")
         docs = self.db.collection('players').stream()
         data = []
         for doc in docs:
@@ -61,7 +61,7 @@ class FirestoreService:
         return ledger
 
     def get_online_players(self):
-        self.logger.debug(f"Getting online players.")
+        self.logger.error(f"Getting online players.")
         docs = self.db.collection('online_now').stream()
         data = []
         for doc in docs:
