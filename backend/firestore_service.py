@@ -23,7 +23,7 @@ class FirestoreService:
     def update_or_add_online_players(self, online_players):
         docs = self.db.collection('online_now').stream()
         for doc in docs:
-            if all(player['uid'] != doc.id for player in online_players['players']) or online_players is None:
+            if all(player['uid'] != doc.id for player in online_players['players']):
                 self.logger.error(f"Player no longer online: {doc.id}")
                 self.db.collection('online_now').document(doc.id).delete()
         for player in online_players['players']:

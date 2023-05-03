@@ -17,12 +17,11 @@ logger.addHandler(fh)
 
 
 async def server_monitor(server):
-    online_players = {}
+    online_players = {"players": []}
     response = server.status()
     if response.players.sample is not None:
         logger.info("{} player(s) online".format(response.players.online))
         online_players["timestamp"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        online_players["players"] = []
         for player in response.players.sample:
             online_players["players"].append({"name": player.name, "uid": player.id})
             logger.info("Retrieved status information for {}".format(player.name))
