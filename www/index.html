@@ -1,58 +1,60 @@
 <!DOCTYPE html>
 <html lang="en_gb">
-    <head>
-        <title>
-            EurekaMC
-        </title>
-        <link rel="stylesheet" href="main.css"/>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
+<head>
+    <title>
+        EurekaMC
+    </title>
+    <link rel="stylesheet" href="main.css"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 
-    <body>
-        <div class="container">
-            <section class="section">
+<body>
+<section class="hero is-medium is-link">
+    <div class="hero-body">
+        <p class="title">
+            Eureka Minecraft Player Viewer
+        </p>
+        <p class="subtitle">
+            See who is online and who has been the most active! 🥕
+        </p>
+    </div>
+</section>
+<div class="container py-5">
+    <div class="columns">
+        <div class="column">
+            <section class="section mx-3 col-box-shadow">
                 <div class="container">
-                  <h1 class="title">
-                    Eureka Minecraft Player Viewer
-                  </h1>
+                    <p class="subtitle">
+                        See who is playing on <strong>Eureka MC</strong> right now!
+                    </p>
+                </div>
+                <div class="container py-5">
+                    <table class="table is-fullwidth is-hoverable" id="playerOnlineTable">
+                        <tr>
+                        </tr>
+                    </table>
+                    <button id="refreshButton" class="button is-primary is-outlined">Refresh</button>
                 </div>
             </section>
-
-            <div class="columns">
-                <div class="column">
-                    <section class="section">
-                        <div class="container">
-                            <p class="subtitle">
-                                See who is playing on <strong>Eureka MC</strong> right now!
-                            </p>
-                        </div>
-                        <div class="container py-5">
-                            <table class="table is-fullwidth is-hoverable" id="playerOnlineTable">
-                                <tr>
-                                </tr>
-                            </table>
-                            <button id="refreshButton" class="button is-primary is-outlined">Refresh</button>
-                        </div>
-                    </section>
-                </div>
-                <div class="column">
-                    <section class="section">
-                        <div class="container">
-                            <p class="subtitle">
-                                Who has been playing the most this week?
-                            </p>
-                        </div>
-                        <div class="container py-5">
-                            <table class="table is-fullwidth is-hoverable" id="playerTimeLeaderBoard">
-                                <tr>
-                                </tr>
-                            </table>
-                        </div>
-                    </section>
-                </div>
-            </div>
         </div>
-        <script src="home.js"></script>
-    </body>
+        <div class="column">
+            <section class="section mx-3 col-box-shadow">
+                <div class="container">
+                    <p class="subtitle">
+                        Who has been playing the most this week?
+                    </p>
+                </div>
+                <div class="container py-5">
+                    <table class="table is-fullwidth is-hoverable" id="playerTimeLeaderBoard">
+                        <tr>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<script src="home.js"></script>
+</body>
 </html>

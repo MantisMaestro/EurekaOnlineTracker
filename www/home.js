@@ -40,8 +40,9 @@ function GetPlaytimeLeaders() {
             }
 
             let sortedPlayers = players.sort((a,b) => (a.time_online_seconds > b.time_online_seconds) ? -1 : ((b.time_online_seconds > a.time_online_seconds) ? 1 : 0));
+            let sortedSubset = sortedPlayers.slice(0, 5)
 
-            sortedPlayers.forEach(element => {
+            sortedSubset.forEach(element => {
                 if (element.name != "Anonymous Player") {
                     let rowElement = buildPlaytimeTableRow(element.name, secondsToTimeString(element.time_online_seconds))
                     tableBody.insertAdjacentHTML('beforeend', rowElement)

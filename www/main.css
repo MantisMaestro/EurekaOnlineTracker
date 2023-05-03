@@ -1,1 +1,7 @@
 @import 'https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css';
+
+.col-box-shadow {
+    -webkit-box-shadow: 0px 0px 30px -8px rgba(255,162,0,1);
+    -moz-box-shadow: 0px 0px 30px -8px rgba(255,162,0,1);
+    box-shadow: 0px 0px 30px -8px rgba(255,162,0,1);
+}
