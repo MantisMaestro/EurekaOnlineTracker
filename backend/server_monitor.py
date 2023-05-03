@@ -54,7 +54,7 @@ def save_ledger_to_firestore(data):
 
 
 def setup():
-    logger.info("Logging successfully started...")
+    logger.error("Logging successfully started...")
 
 
 def main():

@@ -18,6 +18,7 @@ class FirestoreService:
         formatter = logging.Formatter('%(asctime)s -:- %(message)s')
         fh.setFormatter(formatter)
         self.logger.addHandler(fh)
+        self.logger.error("Logging successfully started...")
 
     def update_or_add_online_players(self, online_players):
         docs = self.db.collection('online_now').stream()
