@@ -3,5 +3,6 @@
 .col-box-shadow {
     -webkit-box-shadow: 0px 0px 30px -8px rgba(255,162,0,1);
     -moz-box-shadow: 0px 0px 30px -8px rgba(255,162,0,1);
-    box-shadow: 0px 0px 30px -8px rgba(255,162,0,1);
+    box-shadow: 0px 0px 30px -8px rgba(237, 103, 50);
+    border-radius: 35px;
 }
