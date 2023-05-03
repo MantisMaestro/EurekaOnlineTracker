@@ -7,13 +7,13 @@ from firebase_admin import firestore
 
 
 class FirestoreService:
-    def __init__(self):
+    def __init__(self, log_filename="fsService"):
         self.cred = credentials.Certificate('eurekaonline-bdcf2-firebase-adminsdk-sbr8z-1d1449d966.json')
         self.app = firebase_admin.initialize_app(self.cred)
         self.db = firestore.client()
-        self.logger = logging.getLogger('firestore_service')
+        self.logger = logging.getLogger('log_filename')
         self.logger.setLevel(logging.INFO)
-        fh = logging.FileHandler('firestore_service.log')
+        fh = logging.FileHandler(f'{log_filename}.log')
         fh.setLevel(logging.INFO)
         formatter = logging.Formatter('%(asctime)s -:- %(message)s')
         fh.setFormatter(formatter)

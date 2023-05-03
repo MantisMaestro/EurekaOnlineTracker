@@ -8,7 +8,7 @@ online_players = {}
 playtime_ledger = {}
 lock = Lock()
 app = Flask(__name__)
-fsService = firestore_service.FirestoreService()
+fsService = firestore_service.FirestoreService("fsService-api")
 
 
 @app.route('/online_players')

@@ -6,7 +6,7 @@ import traceback
 import firestore_service
 from mcstatus import JavaServer
 
-fsService = firestore_service.FirestoreService()
+fsService = firestore_service.FirestoreService("fsService-monitor")
 logger = logging.getLogger('eureka_monitor')
 logger.setLevel(logging.INFO)
 fh = logging.FileHandler('eureka_monitor.log')
