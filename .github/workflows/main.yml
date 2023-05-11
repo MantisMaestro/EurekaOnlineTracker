@@ -1,0 +1,23 @@
+name: publish-website-to-digitalocean
+on:
+  push:
+    branches:
+    - main
+  
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Pull using remote SSH commands.
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{secrets.HOST}}
+        username: ${{secrets.USER}}
+        key: ${{secrets.KEY}}
+        script: |
+          git checkout main
+          git pull
+          supervisorctl restart eureka_monitor eureka_api
+  
+  
