@@ -16,6 +16,7 @@ jobs:
         username: ${{secrets.USER}}
         key: ${{secrets.KEY}}
         script: |
+          cd /home/EurekaOnlineTracker
           git checkout main
           git pull
           supervisorctl restart eureka_monitor eureka_api
