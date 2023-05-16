@@ -69,3 +69,6 @@ class FirestoreService:
             data.append(doc.to_dict())
         online = {"players": data}
         return online
+
+    def get_working_ledger_id(self):
+        return datetime.today().strftime('%Y-%m-%d')

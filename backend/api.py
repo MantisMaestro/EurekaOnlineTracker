@@ -23,6 +23,11 @@ def get_top_players(x=5):
     return jsonify(response)
 
 
+@app.route('/top_players/<string:period>/<int:x>')
+def get_top_players_period(period="week", x=5):
+    print("Hello World")
+
+
 def setup():
     CORS(app)
 
