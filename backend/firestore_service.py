@@ -1,4 +1,4 @@
-import datetime
+from datetime import date, timedelta
 import logging
 
 import firebase_admin
@@ -32,8 +32,8 @@ class FirestoreService:
                 self.db.collection('online_now').document(player['uid']).set(player)
 
     def update_or_add_player_time_ledger(self, online_players):
-        docs = self.db.collection('players').stream()
-        collection = self.db.collection('players')
+        working_ledger = self.get_working_ledger_id()
+        collection = self.db.collection(working_ledger)
         for player in online_players['players']:
             doc_ref = collection.document(player['uid'])
             doc = doc_ref.get()
@@ -54,6 +54,7 @@ class FirestoreService:
 
     def get_player_ledger(self):
         self.logger.error(f"Getting player ledger.")
+        working_ledger = self.get_working_ledger_id()
         docs = self.db.collection('players').stream()
         data = []
         for doc in docs:
@@ -61,8 +62,23 @@ class FirestoreService:
         ledger = {"players": data}
         return ledger
 
+    # def get_consolidated_ledger(self):
+    #     ledgers = self.get_week_dates()
+    #     consolidated_ledger = {}
+    #     for ledger in ledgers:
+    #         try:
+    #             collection = self.db.collection(ledger).stream()
+    #             for doc in collection:
+    #                 if doc.id in consolidated_ledger:
+    #                     consolidated_ledger[doc.id]["time_online_seconds"] += doc.get('time_online_seconds')#
+    #                 else:
+    #                     consolidated_ledger[doc.id] = doc.get()
+    #         except:
+    #             print("Error getting consolidated ledger, does it exist?")
+
     def get_online_players(self):
         self.logger.error(f"Getting online players.")
+        working_ledger = self.get_working_ledger_id()
         docs = self.db.collection('online_now').stream()
         data = []
         for doc in docs:
@@ -71,4 +87,14 @@ class FirestoreService:
         return online
 
     def get_working_ledger_id(self):
-        return datetime.today().strftime('%Y-%m-%d')
+        return datetime.datetime.today().strftime('%Y-%m-%d')
+
+    # def get_week_dates():
+    #     today = date.today()
+    #     current_weekday = today.weekday()
+    #     monday = today - timedelta(days=current_weekday)
+    #     dates = []
+    #     for i in range(current_weekday + 1):
+    #         day = monday + timedelta(days=i)
+    #         dates.append(day.strftime('%Y-%m-%d'))
+    #     return dates
