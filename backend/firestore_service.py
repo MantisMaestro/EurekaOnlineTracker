@@ -87,7 +87,7 @@ class FirestoreService:
         return online
 
     def get_working_ledger_id(self):
-        return datetime.datetime.today().strftime('%Y-%m-%d')
+        return datetime.today().strftime('%Y-%m-%d')
 
     # def get_week_dates():
     #     today = date.today()
