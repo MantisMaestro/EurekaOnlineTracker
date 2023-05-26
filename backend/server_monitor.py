@@ -39,8 +39,9 @@ async def handler():
                 asyncio.sleep(60),
                 server_monitor(server)
             )
-    except Exception:
+    except Exception as e:
         logger.critical("An error occured in the server_handler.handler(), trying again in 3 minutes.")
+        logger.critical(e)
         await asyncio.sleep(120)
         traceback.print_exc()
 
