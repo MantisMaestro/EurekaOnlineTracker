@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 import logging
 
 import firebase_admin
@@ -39,18 +39,18 @@ class FirestoreService:
             doc = doc_ref.get()
             if doc.exists:
                 self.logger.error(f"Player ledger updated: {player['name']}")
-                self.db.collection('players').document(player['uid']).update(
+                collection.document(player['uid']).update(
                     {'time_online_seconds': firestore.Increment(60),
-                     'last_online': datetime.datetime.now()}
+                     'last_online': datetime.now()}
                 )
             else:
                 new_player = {
-                    "last_online": datetime.datetime.now(),
+                    "last_online": datetime.now(),
                     "name": player["name"],
                     "time_online_seconds": 0
                 }
                 self.logger.error(f"New player added to ledger: {player['name']}")
-                self.db.collection('players').document(player['uid']).set(new_player)
+                collection.document(player['uid']).set(new_player)
 
     def get_player_ledger(self):
         self.logger.error(f"Getting player ledger.")
