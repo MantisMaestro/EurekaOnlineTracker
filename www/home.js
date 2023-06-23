@@ -92,8 +92,8 @@ function buildPlaytimeTableRow(playerName, playtime) {
 }
 
 function getBaseURL() {
-    return "http://127.0.0.1:5000/"
-    // return "https://eureka.agamemnon.dev/api/"
+    // return "http://127.0.0.1:5000/"
+    return "https://eureka.agamemnon.dev/api/"
 }
 
 function getShortDateStrin(date) {
