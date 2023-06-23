@@ -20,6 +20,7 @@ function RetrieveOnlinePlayers() {
             const tableBody = document.querySelector("#playerOnlineTable > tbody")
 
             let players = jsonData["players"]
+            players = players.filter(player => player.name !== "Anonymous Player");
             for (let i = 0; i < players.length; i++) {
                 let rowElement = buildOnlineTableRow(players[i]["name"])
                 tableBody.insertAdjacentHTML('beforeend', rowElement)
