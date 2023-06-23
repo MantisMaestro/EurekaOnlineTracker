@@ -19,13 +19,15 @@ def get_online_players():
 
 @app.route('/top_players/<int:x>')
 def get_top_players(x=5):
-    response = fsService.get_player_ledger()
+    response = fsService.get_consolidated_ledger()
     return jsonify(response)
 
 
-@app.route('/top_players/<string:period>/<int:x>')
-def get_top_players_period(period="week", x=5):
-    print("Hello World")
+# @app.route('/top_players/<string:period>/<int:x>')
+# def get_top_players_period(period="week", x=5):
+#     print("Hello World")
+#     response = fsService.get_player_ledger()
+#     return jsonify(response)
 
 
 def setup():
