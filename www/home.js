@@ -20,6 +20,7 @@ function RetrieveOnlinePlayers() {
             const tableBody = document.querySelector("#playerOnlineTable > tbody")
 
             let players = jsonData["players"]
+            players = players.filter(player => player.name !== "Anonymous Player");
             for (let i = 0; i < players.length; i++) {
                 let rowElement = buildOnlineTableRow(players[i]["name"])
                 tableBody.insertAdjacentHTML('beforeend', rowElement)
@@ -91,8 +92,8 @@ function buildPlaytimeTableRow(playerName, playtime) {
 }
 
 function getBaseURL() {
-    // return "http://127.0.0.1:5000/"
-    return "https://eureka.agamemnon.dev/api/"
+    return "http://127.0.0.1:5000/"
+    // return "https://eureka.agamemnon.dev/api/"
 }
 
 function getShortDateStrin(date) {
