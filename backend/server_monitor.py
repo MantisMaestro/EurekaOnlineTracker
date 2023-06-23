@@ -8,9 +8,9 @@ from mcstatus import JavaServer
 
 fsService = firestore_service.FirestoreService("fsService-monitor")
 logger = logging.getLogger('eureka_monitor')
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.ERROR)
 fh = logging.FileHandler('eureka_monitor.log')
-fh.setLevel(logging.INFO)
+fh.setLevel(logging.ERROR)
 formatter = logging.Formatter('%(asctime)s -:- %(message)s')
 fh.setFormatter(formatter)
 logger.addHandler(fh)
@@ -22,7 +22,7 @@ async def server_monitor(server):
     response = server.status()
     if response.players.sample is not None:
         logger.info("{} player(s) online".format(response.players.online))
-        online_players["timestamp"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        online_players["timestamp"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") # type: ignore
         for player in response.players.sample:
             online_players["players"].append({"name": player.name, "uid": player.id})
             logger.info("Retrieved status information for {}".format(player.name))
@@ -38,7 +38,7 @@ async def handler():
         while True:
             print("Looping...")
             await asyncio.gather(
-                asyncio.sleep(10),
+                asyncio.sleep(60),
                 server_monitor(server)
             )
     except Exception as e:

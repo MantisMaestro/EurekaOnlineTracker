@@ -11,7 +11,8 @@ window.onload = (event) => {
 }
 
 function RetrieveOnlinePlayers() {
-    let response = fetch('https://eureka.agamemnon.dev/api/online_players')
+    let url = getBaseURL() + "online_players"
+    let response = fetch(url)
         .then(response => response.json())
         .then(jsonData => {
             const rows = document.querySelectorAll("#playerOnlineTable > tbody > tr")
@@ -27,19 +28,21 @@ function RetrieveOnlinePlayers() {
 }
 
 function GetPlaytimeLeaders() {
-    let response = fetch('https://eureka.agamemnon.dev/api/top_players/5')
+    let url = getBaseURL() + "top_players/5"
+    let response = fetch(url)
         .then(response => response.json())
         .then(jsonData => {
             const rows = document.querySelectorAll("#playerTimeLeaderBoard > tbody > tr")
             rows.forEach(element => element.remove())
             const tableBody = document.querySelector("#playerTimeLeaderBoard > tbody")
 
-            let players = jsonData["players"], objects = [];
-            for(let i in players) {
-                objects.push(players[i].time_online_seconds)
+            let objects = [];
+            for(let i in jsonData) {
+                objects.push(jsonData[i])
             }
 
-            let sortedPlayers = players.sort((a,b) => (a.time_online_seconds > b.time_online_seconds) ? -1 : ((b.time_online_seconds > a.time_online_seconds) ? 1 : 0));
+            objects = objects.filter(player => player.name !== "Anonymous Player");
+            let sortedPlayers = objects.sort((a,b) => (a.time_online_seconds > b.time_online_seconds) ? -1 : ((b.time_online_seconds > a.time_online_seconds) ? 1 : 0));
             let sortedSubset = sortedPlayers.slice(0, 5)
 
             sortedSubset.forEach(element => {
@@ -85,4 +88,13 @@ function buildPlaytimeTableRow(playerName, playtime) {
         </td>
     </tr>
     `
+}
+
+function getBaseURL() {
+    // return "http://127.0.0.1:5000/"
+    return "https://eureka.agamemnon.dev/api/"
+}
+
+function getShortDateStrin(date) {
+    return date.toLocaleDateString("en-US", {year: 'numeric', month: 'short', day: 'numeric'})
 }
