@@ -17,15 +17,14 @@ logger.addHandler(fh)
 
 
 async def server_monitor(server):
-    print("Entering server monitor...")
     online_players = {"players": []}
     response = server.status()
     if response.players.sample is not None:
         logger.info("{} player(s) online".format(response.players.online))
         online_players["timestamp"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") # type: ignore
         for player in response.players.sample:
-            online_players["players"].append({"name": player.name, "uid": player.id})
-            logger.info("Retrieved status information for {}".format(player.name))
+            if player.name != "Anonymous Player":
+                online_players["players"].append({"name": player.name, "uid": player.id})
         save_ledger_to_firestore(online_players)
         save_online_players_to_firestore(online_players)
     else:
@@ -36,7 +35,6 @@ async def handler():
     try:
         server = JavaServer("158.62.203.83", 25565)
         while True:
-            print("Looping...")
             await asyncio.gather(
                 asyncio.sleep(60),
                 server_monitor(server)
@@ -49,18 +47,14 @@ async def handler():
 
 
 def save_online_players_to_firestore(data):
-    print("Saving online players...")
     fsService.update_or_add_online_players(data)
-    print("Finished saving online players...")
 
 
 def save_ledger_to_firestore(data):
     try:
-        print("Updating player ledger...")
         fsService.update_or_add_player_time_ledger(data)
-        print("Finished updating player ledger...")
     except Exception as e:
-        print(e)
+        logger.error(e)
 
 
 def setup():
