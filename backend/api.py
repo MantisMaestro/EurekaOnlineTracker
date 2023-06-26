@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from threading import Lock
 import firestore_service
@@ -19,6 +19,8 @@ def get_online_players():
 
 @app.route('/top_players/<int:x>')
 def get_top_players(x=5):
+    from_date = request.args.get('from_date')
+    to_date = request.args.get('to_date')
     response = fsService.get_consolidated_ledger()
     return jsonify(response)
 
