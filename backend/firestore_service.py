@@ -61,8 +61,12 @@ class FirestoreService:
         ledger = {"players": data}
         return ledger
 
-    def get_consolidated_ledger(self):
-        ledgers = self.get_week_dates()
+    def get_consolidated_ledger(self, from_date=None, to_date=None):
+        ledgers = []
+        if from_date is None:
+            ledgers = self.get_week_dates()
+        else:
+            ledgers = self.get_dates_in_range(from_date, to_date)
         consolidated_ledger = {}
         for ledger in ledgers:
             try:
@@ -95,5 +99,14 @@ class FirestoreService:
         dates = []
         for i in range(current_weekday + 1):
             day = monday + timedelta(days=i)
+            dates.append(day.strftime('%Y-%m-%d'))
+        return dates
+    
+    def get_dates_in_range(self, from_date, to_date):
+        dates = []
+        if to_date is None:
+            to_date = datetime.today()
+        for i in range((to_date - from_date).days + 1):
+            day = from_date + timedelta(days=i)
             dates.append(day.strftime('%Y-%m-%d'))
         return dates
