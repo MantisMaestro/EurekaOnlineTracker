@@ -1,9 +1,31 @@
-const button = document.getElementById("refreshButton")
+const refreshButton = document.getElementById("refreshButton")
+const dateSelectorButton = document.getElementById("dateSelectorButton")
 
-button.addEventListener("click", (event) => {
+refreshButton.addEventListener("click", (event) => {
     RetrieveOnlinePlayers()
     GetPlaytimeLeaders()
 });
+
+dateSelectorButton.addEventListener("click", (event) => {
+    const fromDate = document.getElementById("from_date").value;
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(fromDate)) {
+        console.log("Invalid date format. Please use the format YYYY-MM-DD.");
+    }
+
+    const toDate = document.getElementById("to_date").value;
+    if (!dateRegex.test(toDate)) {
+        console.log("Invalid date format. Please use the format YYYY-MM-DD.");
+    }
+
+    if (fromDate > toDate) {
+        console.log("to_date must be after from_date.");
+    }
+
+    GetPlaytimeLeaders(fromDate, toDate);
+});
+
+
 
 window.onload = (event) => {
     RetrieveOnlinePlayers()
@@ -28,8 +50,11 @@ function RetrieveOnlinePlayers() {
         })
 }
 
-function GetPlaytimeLeaders() {
-    let url = getBaseURL() + "top_players/5"
+function GetPlaytimeLeaders(fromDate, toDate) {
+    let url = `${getBaseURL()}top_players/5`;
+    if (fromDate && toDate) {
+        url += `?from_date=${fromDate}&to_date=${toDate}`;
+    }
     let response = fetch(url)
         .then(response => response.json())
         .then(jsonData => {

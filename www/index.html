@@ -33,50 +33,52 @@
 <div class="container py-5">
     <div class="columns">
         <div class="column">
-            <section class="section mx-3 col-box-shadow">
-                <div class="container">
-                    <p class="subtitle">
-                        See who is playing on <strong>Eureka MC</strong> right now!
-                    </p>
+            <div class="columns">
+                <div class="column">
+                    <section class="section mx-3 box">
+                        <div class="container">
+                            <p class="subtitle">
+                                See who is playing on <strong>Eureka MC</strong> right now!
+                            </p>
+                        </div>
+                        <div class="container py-5">
+                            <table class="table is-fullwidth is-hoverable" id="playerOnlineTable">
+                                <tr>
+                                </tr>
+                            </table>
+                            <button id="refreshButton" class="button is-primary is-outlined">Refresh</button>
+                        </div>
+                    </section>
                 </div>
-                <div class="container py-5">
-                    <table class="table is-fullwidth is-hoverable" id="playerOnlineTable">
-                        <tr>
-                        </tr>
-                    </table>
-                    <button id="refreshButton" class="button is-primary is-outlined">Refresh</button>
-                </div>
-            </section>
-        </div>
-        <div class="column">
-            <section class="section mx-3 col-box-shadow">
-                <div class="container">
-                    <p class="subtitle is-5"> Who has been playing the most this week? </p>
-                    <p class="subtitle is-6"> Or see who has played the most in a particular timeframe: </p>
-                    <label for="from_date">From:</label>
-                    <input type="date" id="from_date" name="from_date">
-                    <label for="to_date">To:</label>
-                    <input type="date" id="to_date" name="to_date">
-                </div>
-                
-                <!-- <div class="section columns">
-                    <div class="column">
-                        This Week
+                <div class="column">
+                    <section class="section mx-3 box">
+                        <p class="subtitle is-5"> Who has been playing the most this week? </p>
+                        <div class="container py-5">
+                            <table class="table is-fullwidth is-hoverable" id="playerTimeLeaderBoard">
+                                <tr>
+                                </tr>
+                            </table>
+                        </div>
+                    </section>
+                    <div class="section mx-3 box">
+                        <p class="subtitle is-6"> Or see who has played the most in a particular timeframe: </p>
+                        <div class="columns">
+                            <div class="column is-4">
+                                <label for="from_date">From:</label>
+                                <input type="date" id="from_date" name="from_date">
+                            </div>
+                            <div class="column is-4">
+                                <label for="to_date">To:</label>
+                                <input type="date" id="to_date" name="to_date">
+                            </div>
+                            <div class="column is-4">
+                                <button id="dateSelectorButton" class="button is-primary is-outlined is-medium">Refresh</button>
+                            </div>
+                        </div>
+                        
                     </div>
-                    <div class="column">
-                        This Month
-                    </div>
-                    <div class="column">
-                        Map 10
-                    </div>
-                </div> -->
-                <div class="container py-5">
-                    <table class="table is-fullwidth is-hoverable" id="playerTimeLeaderBoard">
-                        <tr>
-                        </tr>
-                    </table>
                 </div>
-            </section>
+            </div>
         </div>
     </div>
 </div>
